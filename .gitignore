@@ -1,1 +1,4 @@
-.idea/workspace.xml
+/build
+go.mod
+go.sum
+
