@@ -3,10 +3,11 @@ package main
 import (
 	"os"
 	"log"
+	"strings"
 	"image"
 	"fmt"
-    "github.com/oliamb/cutter"
-			"gopkg.in/alecthomas/kingpin.v2"
+  "github.com/oliamb/cutter"
+	"gopkg.in/alecthomas/kingpin.v2"
 	"path"
 	"image/jpeg"
 	"image/png"
@@ -60,6 +61,8 @@ func main() {
 
 	var fileName string
 
+	i := 0
+
 	for x:= 0; x < nColumns; x++ {
 		for y := 0; y < nRows; y++ {
 			img, err := cutter.Crop(img, cutter.Config{
@@ -70,7 +73,8 @@ func main() {
 				Options: 0,
 			})
 
-			fileName = path.Join(*outputDir, fmt.Sprintf("arazzo_%d_%d.%s", x, y, *outputFormat))
+			_, file := path.Split(*inputFile)
+			fileName = path.Join(*outputDir, fmt.Sprintf("%s_%d.%s", strings.Replace(file, path.Ext(*inputFile), "", -1), i, *outputFormat))
 
 			outImgFile, err := os.Create(fileName)
 			if err != nil {
@@ -91,6 +95,7 @@ func main() {
 
 			outImgFile.Close()
 		}
+		i++
 	}
 
 	if *verbose {
