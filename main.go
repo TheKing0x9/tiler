@@ -94,8 +94,8 @@ func main() {
 			}
 
 			outImgFile.Close()
+			i++
 		}
-		i++
 	}
 
 	if *verbose {
