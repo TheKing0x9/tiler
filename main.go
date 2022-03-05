@@ -15,7 +15,8 @@ import (
 var (
 	app = kingpin.New("Tiler", "A tool for making tiles from an image.")
 	verbose = app.Flag("verbose", "Verbose mode.").Short('v').Bool()
-	tileSize = app.Flag("tile", "Tile size (default 256).").Default("256").Short('t').Int()
+	tileWidth = app.Flag("width", "Tile width (default 16).").Default("16").Short('w').Int()
+	tileHeight = app.Flag("height", "Tile height (default 16).").Default("16").Short('h').Int()
 	outputFormat = app.Flag("format", "Image output format.").Short('f').Default("png").HintOptions("jpeg", "png").String()
 	inputFile = app.Arg("input", "Input image file path (accepted jpeg, png).").Required().ExistingFile()
 	outputDir = app.Arg("output", "Output directory.").Default(".").ExistingDir()
@@ -54,18 +55,18 @@ func main() {
 		fmt.Printf("Cropping image (size %dx%d)\n", width, height)
 	}
 
-	nColumns := width/ *tileSize
-	nRows := height/ *tileSize
+	nColumns := width/ *tileWidth
+	nRows := height/ *tileHeight
 
 	var fileName string
 
 	for x:= 0; x < nColumns; x++ {
 		for y := 0; y < nRows; y++ {
 			img, err := cutter.Crop(img, cutter.Config{
-				Height:  *tileSize,
-				Width:   *tileSize,
+				Height:  *tileHeight,
+				Width:   *tileWidth,
 				Mode:    cutter.TopLeft,
-				Anchor:  image.Point{x* *tileSize, y* *tileSize},
+				Anchor:  image.Point{x* *tileWidth, y* *tileHeight},
 				Options: 0,
 			})
 
