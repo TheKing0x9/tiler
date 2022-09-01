@@ -63,8 +63,8 @@ func main() {
 
 	i := 0
 
-	for x:= 0; x < nColumns; x++ {
-		for y := 0; y < nRows; y++ {
+	for y := 0; y < nRows; y++ {
+		for x:= 0; x < nColumns; x++ {
 			img, err := cutter.Crop(img, cutter.Config{
 				Height:  *tileHeight,
 				Width:   *tileWidth,
